@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { api, ErrorApi } from "../Componentes/Api";
 import { pacienteDesdeApi } from "../Componentes/Mapeo";
+import { useActualizacionPeriodica } from "./useActualizacionPeriodica";
 import type { EstadoProceso, Paciente, PacienteApi } from "../types/dominio";
 
 type FormularioEdicion = {
@@ -33,17 +34,19 @@ export function usePaciente(pacienteId: number) {
   const [cargando, setCargando] = useState(true);
   const [errorCarga, setErrorCarga] = useState("");
 
-  const cargarPaciente = useCallback(async () => {
-    setCargando(true);
+  const cargarPaciente = useCallback(async (opciones: { silencioso?: boolean } = {}) => {
+    if (!opciones.silencioso) setCargando(true);
     setErrorCarga("");
     try {
       const datos = await api.get<PacienteApi>(`/pacientes/${pacienteId}`);
       setPaciente(datos ? pacienteDesdeApi(datos) : null);
     } catch (err) {
-      setErrorCarga(err instanceof ErrorApi ? err.message : "No se pudo cargar el paciente.");
-      setPaciente(null);
+      if (!opciones.silencioso) {
+        setErrorCarga(err instanceof ErrorApi ? err.message : "No se pudo cargar el paciente.");
+        setPaciente(null);
+      }
     } finally {
-      setCargando(false);
+      if (!opciones.silencioso) setCargando(false);
     }
   }, [pacienteId]);
 
@@ -54,6 +57,10 @@ export function usePaciente(pacienteId: number) {
   const [formulario, setFormulario] = useState<FormularioEdicion | null>(null);
   const [guardando, setGuardando] = useState(false);
   const [errorEdicion, setErrorEdicion] = useState("");
+
+  // No sondear mientras se está editando: evita pisar lo que la psicóloga
+  // está escribiendo si justo en ese momento llega una actualización.
+  useActualizacionPeriodica(() => { if (!editando) cargarPaciente({ silencioso: true }); }, 6000);
 
   function abrirEdicion() {
     if (!paciente) return;

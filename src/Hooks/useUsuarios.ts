@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { api, ErrorApi } from "../Componentes/Api";
 import { usuarioDesdeApi } from "../Componentes/Mapeo";
+import { useActualizacionPeriodica } from "./useActualizacionPeriodica";
 import type { RolUsuario, Usuario, UsuarioApi } from "../types/dominio";
 
 const FORMULARIO_VACIO = { correo: "", contrasena: "", rol: "psicologo" as RolUsuario };
@@ -13,17 +14,19 @@ export function useUsuarios() {
   const [cargando, setCargando] = useState(true);
   const [errorCarga, setErrorCarga] = useState("");
 
-  const cargarUsuarios = useCallback(async () => {
-    setCargando(true);
+  const cargarUsuarios = useCallback(async (opciones: { silencioso?: boolean } = {}) => {
+    if (!opciones.silencioso) setCargando(true);
     setErrorCarga("");
     try {
       const datos = await api.get<UsuarioApi[]>("/usuarios");
       setUsuarios((datos || []).map(usuarioDesdeApi));
     } catch (err) {
-      setErrorCarga(err instanceof ErrorApi ? err.message : "No se pudieron cargar los usuarios.");
-      setUsuarios([]);
+      if (!opciones.silencioso) {
+        setErrorCarga(err instanceof ErrorApi ? err.message : "No se pudieron cargar los usuarios.");
+        setUsuarios([]);
+      }
     } finally {
-      setCargando(false);
+      if (!opciones.silencioso) setCargando(false);
     }
   }, []);
 
@@ -164,6 +167,11 @@ export function useUsuarios() {
       setProcesandoId(null);
     }
   }
+
+  // No sondear con un modal de cuenta abierto (crear, restablecer o eliminar).
+  useActualizacionPeriodica(() => {
+    if (!mostrarFormulario && !usuarioRestableciendo && !usuarioAEliminar) cargarUsuarios({ silencioso: true });
+  }, 6000);
 
   return {
     usuarios, cargando, errorCarga,

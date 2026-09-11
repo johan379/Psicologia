@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { api, ErrorApi } from "../Componentes/Api";
 import { pacienteDesdeApi } from "../Componentes/Mapeo";
+import { useActualizacionPeriodica } from "./useActualizacionPeriodica";
 import type { Paciente, PacienteApi } from "../types/dominio";
 
 const LIMITE_POR_PAGINA = 20;
@@ -28,8 +29,8 @@ export function usePacientes() {
   const [cargando, setCargando] = useState(true);
   const [errorCarga, setErrorCarga] = useState("");
 
-  const cargarPacientes = useCallback(async () => {
-    setCargando(true);
+  const cargarPacientes = useCallback(async (opciones: { silencioso?: boolean } = {}) => {
+    if (!opciones.silencioso) setCargando(true);
     setErrorCarga("");
     try {
       const skip = (pagina - 1) * LIMITE_POR_PAGINA;
@@ -39,14 +40,19 @@ export function usePacientes() {
       setPacientes((datos?.items || []).map(pacienteDesdeApi));
       setPaginacion(datos ? { total: datos.total, pagina: datos.pagina, total_paginas: datos.total_paginas } : undefined);
     } catch (err) {
-      setErrorCarga(err instanceof ErrorApi ? err.message : "No se pudieron cargar los pacientes.");
-      setPacientes([]);
+      // Un sondeo en segundo plano que falla (ej. el backend gratuito
+      // "dormido" tardando en despertar) no debe borrar lo que ya se ve.
+      if (!opciones.silencioso) {
+        setErrorCarga(err instanceof ErrorApi ? err.message : "No se pudieron cargar los pacientes.");
+        setPacientes([]);
+      }
     } finally {
-      setCargando(false);
+      if (!opciones.silencioso) setCargando(false);
     }
   }, [busqueda, pagina]);
 
   useEffect(() => { cargarPacientes(); }, [cargarPacientes]);
+  useActualizacionPeriodica(() => cargarPacientes({ silencioso: true }), 6000);
 
   function buscar(texto: string) {
     setBusqueda(texto);

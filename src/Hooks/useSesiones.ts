@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { api, ErrorApi } from "../Componentes/Api";
 import { sesionDesdeApi } from "../Componentes/Mapeo";
+import { useActualizacionPeriodica } from "./useActualizacionPeriodica";
 import type { SesionPaciente, SesionPacienteApi } from "../types/dominio";
 
 const FORMULARIO_VACIO = {
@@ -26,8 +27,8 @@ export function useSesiones(pacienteId: number) {
   const [hasta, setHasta] = useState("");
   const [orden, setOrden] = useState<Orden>("desc");
 
-  const cargarSesiones = useCallback(async () => {
-    setCargando(true);
+  const cargarSesiones = useCallback(async (opciones: { silencioso?: boolean } = {}) => {
+    if (!opciones.silencioso) setCargando(true);
     setErrorCarga("");
     try {
       const parametros = new URLSearchParams({ orden });
@@ -36,10 +37,12 @@ export function useSesiones(pacienteId: number) {
       const datos = await api.get<SesionPacienteApi[]>(`/pacientes/${pacienteId}/sesiones?${parametros.toString()}`);
       setSesiones((datos || []).map(sesionDesdeApi));
     } catch (err) {
-      setErrorCarga(err instanceof ErrorApi ? err.message : "No se pudieron cargar las sesiones.");
-      setSesiones([]);
+      if (!opciones.silencioso) {
+        setErrorCarga(err instanceof ErrorApi ? err.message : "No se pudieron cargar las sesiones.");
+        setSesiones([]);
+      }
     } finally {
-      setCargando(false);
+      if (!opciones.silencioso) setCargando(false);
     }
   }, [pacienteId, desde, hasta, orden]);
 
@@ -55,6 +58,9 @@ export function useSesiones(pacienteId: number) {
   const [formulario, setFormulario] = useState<FormularioSesion>(FORMULARIO_VACIO);
   const [guardando, setGuardando] = useState(false);
   const [errorFormulario, setErrorFormulario] = useState("");
+
+  // No sondear mientras el formulario de nueva sesión está abierto.
+  useActualizacionPeriodica(() => { if (!mostrarFormulario) cargarSesiones({ silencioso: true }); }, 6000);
 
   function abrirFormulario() {
     setFormulario(FORMULARIO_VACIO);
