@@ -1,0 +1,138 @@
+.paciente-page { width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.75rem; }
+
+.paciente-estado { color: var(--ps-muted); }
+.paciente-error { color: var(--ps-red); }
+
+.paciente-volver {
+  align-self: flex-start;
+  margin-bottom: -0.75rem;
+  color: var(--ps-sage);
+  font-size: .875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.paciente-volver:hover { text-decoration: underline; }
+
+.paciente-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.paciente-header h1 { margin: 0 0 .25rem; font-size: 1.6rem; }
+.paciente-subtitulo { margin: 0; color: var(--ps-muted); font-size: .9rem; }
+
+.paciente-estado-proceso {
+  font-size: .8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  padding: .35rem .8rem;
+  border-radius: var(--ps-r-pill);
+  background: var(--ps-sage-dim);
+  color: var(--ps-sage);
+  white-space: nowrap;
+}
+.paciente-estado-proceso[data-estado="en_pausa"] { background: var(--ps-amber-dim); color: var(--ps-amber); }
+.paciente-estado-proceso[data-estado="finalizado"] { background: var(--ps-surface-3); color: var(--ps-muted); }
+
+.paciente-seccion {
+  background: var(--ps-surface);
+  border: 1px solid var(--ps-border-soft);
+  border-radius: var(--ps-r-lg);
+  padding: 1.5rem;
+}
+.paciente-seccion-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.paciente-seccion-header h2 { margin: 0; font-size: 1.1rem; }
+.paciente-seccion-header button {
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-r-sm);
+  background: transparent;
+  padding: .4rem .8rem;
+  cursor: pointer;
+}
+
+.paciente-boton-nueva-sesion { background: var(--ps-sage) !important; color: #fff; border: none !important; font-weight: 600; }
+.paciente-boton-nueva-sesion:hover { background: var(--ps-sage-light) !important; }
+
+.paciente-info-general {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem;
+  margin: 0;
+}
+.paciente-info-general dt { font-size: .75rem; color: var(--ps-caption); text-transform: uppercase; letter-spacing: .03em; }
+.paciente-info-general dd { margin: .2rem 0 0; color: var(--ps-text); }
+.paciente-info-general-ancho { grid-column: 1 / -1; }
+
+.paciente-form-edicion { display: flex; flex-direction: column; gap: .8rem; }
+.paciente-form-edicion label { display: flex; flex-direction: column; gap: .3rem; font-size: .85rem; color: var(--ps-text-2); }
+.paciente-form-edicion input, .paciente-form-edicion select, .paciente-form-edicion textarea {
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-r-sm);
+  padding: .55rem .7rem;
+}
+.paciente-error-form { color: var(--ps-red); margin: 0; font-size: .85rem; }
+.paciente-form-acciones { display: flex; justify-content: flex-end; gap: .6rem; }
+.paciente-form-acciones button[type="submit"] { background: var(--ps-sage); color: #fff; border: none; border-radius: var(--ps-r-sm); padding: .6rem 1.1rem; font-weight: 600; cursor: pointer; }
+.paciente-form-acciones button[type="button"] { background: transparent; border: 1px solid var(--ps-border); border-radius: var(--ps-r-sm); padding: .6rem 1.1rem; cursor: pointer; }
+
+.panel-filtros-sesiones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--ps-border-soft);
+}
+.panel-filtros-sesiones label { display: flex; flex-direction: column; gap: .3rem; font-size: .8rem; color: var(--ps-muted); }
+.panel-filtros-sesiones input, .panel-filtros-sesiones select {
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-r-xs);
+  padding: .4rem .6rem;
+}
+.panel-filtros-sesiones-limpiar {
+  border: none;
+  background: transparent;
+  color: var(--ps-sage);
+  cursor: pointer;
+  font-size: .85rem;
+  padding: .4rem 0;
+}
+
+.historial-sesiones-estado { color: var(--ps-muted); }
+
+.historial-sesiones { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .6rem; }
+.historial-sesiones-item { border: 1px solid var(--ps-border-soft); border-radius: var(--ps-r-md); overflow: hidden; }
+
+.historial-sesiones-resumen {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 1rem;
+  align-items: center;
+  background: var(--ps-surface-2);
+  border: none;
+  padding: .75rem 1rem;
+  cursor: pointer;
+  text-align: left;
+}
+.historial-sesiones-numero { font-weight: 600; color: var(--ps-sage); font-family: var(--ps-font-mono); font-size: .85rem; }
+.historial-sesiones-fecha { color: var(--ps-muted); font-size: .85rem; }
+.historial-sesiones-tema { color: var(--ps-text); }
+
+.historial-sesiones-detalle { padding: 1rem; display: flex; flex-direction: column; gap: .5rem; }
+.historial-sesiones-detalle p { margin: 0; font-size: .9rem; line-height: 1.5; }
+.historial-sesiones-registrada { color: var(--ps-caption); font-size: .78rem !important; }
+
+@media (max-width: 640px) {
+  .paciente-page { gap: 1.25rem; }
+  .paciente-header { flex-direction: column; }
+  .paciente-info-general { grid-template-columns: 1fr; }
+  .historial-sesiones-resumen { grid-template-columns: 1fr; gap: .25rem; }
+
+  .paciente-seccion { padding: 1.1rem; }
+  .paciente-seccion-header { flex-direction: column; align-items: stretch; gap: .75rem; }
+  .paciente-seccion-header button { width: 100%; }
+
+  .paciente-form-acciones { flex-direction: column; }
+  .paciente-form-acciones button { width: 100%; }
+
+  .panel-filtros-sesiones { flex-direction: column; align-items: stretch; gap: .75rem; }
+  .panel-filtros-sesiones input, .panel-filtros-sesiones select { width: 100%; }
+}

@@ -1,0 +1,70 @@
+.barra-lateral {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 2rem;
+  background: var(--ps-surface);
+  color: var(--ps-text);
+  border-bottom: 1px solid var(--ps-border-soft);
+  box-shadow: var(--ps-shadow-xs);
+}
+
+.barra-lateral-marca {
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  background: var(--ps-gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.barra-lateral-nav {
+  display: flex;
+  gap: 1.25rem;
+  flex: 1;
+}
+.barra-lateral-nav a {
+  color: var(--ps-muted);
+  text-decoration: none;
+  font-size: .9rem;
+  font-weight: 600;
+  padding: .4rem 0;
+  border-bottom: 2px solid transparent;
+  transition: color var(--ps-ease), border-color var(--ps-ease);
+}
+.barra-lateral-nav a.activo,
+.barra-lateral-nav a:hover {
+  color: var(--ps-purple);
+  border-bottom-color: var(--ps-purple);
+}
+
+.barra-lateral-usuario {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: .85rem;
+  color: var(--ps-muted);
+}
+.barra-lateral-usuario span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 45vw;
+}
+.barra-lateral-usuario button {
+  background: transparent;
+  border: 1px solid var(--ps-border);
+  color: var(--ps-text-2);
+  border-radius: var(--ps-r-xs);
+  padding: .4rem .75rem;
+  cursor: pointer;
+  transition: border-color var(--ps-ease), color var(--ps-ease);
+}
+.barra-lateral-usuario button:hover { border-color: var(--ps-pink); color: var(--ps-pink); }
+
+@media (max-width: 640px) {
+  .barra-lateral { flex-wrap: wrap; gap: .75rem; padding: .85rem 1rem; }
+  .barra-lateral-nav { order: 3; width: 100%; }
+  .barra-lateral-usuario span { max-width: 55vw; }
+}

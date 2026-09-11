@@ -1,0 +1,146 @@
+.inicio-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #ff9a56 0%, #ff4d94 28%, #7c5cff 62%, #22d3c5 100%);
+  background-size: 320% 320%;
+  animation: inicio-fondo-mover 20s ease-in-out infinite;
+}
+
+@keyframes inicio-fondo-mover {
+  0%, 100% { background-position: 0% 45%; }
+  50% { background-position: 100% 55%; }
+}
+
+/* ── Mariposas revoloteando de fondo ─────────────────────────────────── */
+
+.inicio-mariposas {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.mariposa {
+  position: absolute;
+  display: block;
+  animation-name: mariposa-vuelo;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  filter: drop-shadow(0 3px 6px rgba(30, 10, 40, 0.18));
+}
+
+.mariposa-svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+.mariposa-ala-izq, .mariposa-ala-der {
+  transform-box: fill-box;
+  animation: mariposa-aleteo 0.42s ease-in-out infinite alternate;
+}
+.mariposa-ala-izq { transform-origin: right center; }
+.mariposa-ala-der { transform-origin: left center; }
+
+@keyframes mariposa-aleteo {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0.45); }
+}
+
+@keyframes mariposa-vuelo {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  20%  { transform: translate(70px, -50px) rotate(10deg); }
+  40%  { transform: translate(130px, 15px) rotate(-8deg); }
+  60%  { transform: translate(75px, 75px) rotate(12deg); }
+  80%  { transform: translate(-25px, 25px) rotate(-10deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inicio-page { animation: none; }
+  .mariposa, .mariposa-ala-izq, .mariposa-ala-der { animation: none; }
+}
+
+/* ── Panel de acceso ──────────────────────────────────────────────────── */
+
+.inicio-panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 380px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--ps-r-xl);
+  box-shadow: 0 30px 60px -20px rgba(60, 15, 60, 0.45);
+  padding: 2.5rem 2rem;
+}
+
+.inicio-logo {
+  display: block;
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  margin: 0 auto 1.25rem;
+  border-radius: var(--ps-r-md);
+}
+
+.inicio-subtitulo {
+  margin: 0 0 1.75rem;
+  color: var(--ps-muted);
+  font-size: .9rem;
+  text-align: center;
+}
+
+.inicio-form { display: flex; flex-direction: column; gap: .35rem; }
+
+.inicio-label {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--ps-text-2);
+  margin-top: .75rem;
+}
+
+.inicio-input {
+  background: #ffffff;
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-r-sm);
+  color: var(--ps-text);
+  padding: .65rem .8rem;
+  transition: border-color var(--ps-ease), box-shadow var(--ps-ease);
+}
+.inicio-input:focus-visible { border-color: #7c5cff; outline: none; box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.18); }
+
+.inicio-error {
+  color: #d6336c;
+  font-size: .85rem;
+  margin: .75rem 0 0;
+}
+
+.inicio-boton {
+  margin-top: 1.5rem;
+  background: linear-gradient(90deg, #ff4d94, #7c5cff);
+  color: #fff;
+  border: none;
+  border-radius: var(--ps-r-sm);
+  padding: .75rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 24px -8px rgba(124, 92, 255, 0.55);
+  transition: transform var(--ps-ease), box-shadow var(--ps-ease), opacity var(--ps-ease);
+}
+.inicio-boton:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 14px 30px -8px rgba(124, 92, 255, 0.65); }
+.inicio-boton:disabled { opacity: .6; cursor: not-allowed; }
+
+@media (max-width: 480px), (max-height: 700px) {
+  .inicio-page { padding: 1rem; }
+  .inicio-panel { padding: 1.5rem 1.25rem; }
+  .inicio-logo { max-width: 160px; margin-bottom: .85rem; }
+  .inicio-subtitulo { margin-bottom: 1.1rem; font-size: .85rem; }
+  .inicio-label { margin-top: .55rem; }
+  .inicio-boton { margin-top: 1.1rem; }
+}

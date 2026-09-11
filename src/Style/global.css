@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap");
+
+:root {
+  /* Neutros — gris cálido suave para fondos, carbón azulado para texto */
+  --ps-bg: #f5f7f6;
+  --ps-surface: #ffffff;
+  --ps-surface-2: #eef2f0;
+  --ps-surface-3: #e3e9e6;
+  --ps-text: #1c2624;
+  --ps-text-2: #3c4a47;
+  --ps-muted: #6b7d78;
+  --ps-caption: #8a9a95;
+  --ps-border: #dbe4e0;
+  --ps-border-soft: #e8efec;
+
+  /* Acento — verde salvia/teal: color principal y de acento, nunca fondo dominante */
+  --ps-sage: #2f6f5e;
+  --ps-sage-light: #3f8b76;
+  --ps-sage-dim: rgba(47, 111, 94, 0.12);
+
+  /* Marca — mismos vivos del login (rosa/morado/turquesa/naranja), para que
+     acentos puntuales (botones principales, avatares, títulos) no se sientan
+     desconectados del resto de la app. */
+  --ps-pink: #ff4d94;
+  --ps-purple: #7c5cff;
+  --ps-teal: #22d3c5;
+  --ps-orange: #ff9a56;
+  --ps-gradient-brand: linear-gradient(90deg, #ff4d94, #7c5cff);
+
+  /* Semánticos */
+  --ps-red: #c23b2c;
+  --ps-red-dim: rgba(194, 59, 44, 0.12);
+  --ps-green: #2e7d4f;
+  --ps-green-dim: rgba(46, 125, 79, 0.12);
+  --ps-amber: #b8720a;
+  --ps-amber-dim: rgba(184, 114, 10, 0.12);
+
+  /* Carbón — panel de login */
+  --ps-ink: #16211e;
+  --ps-ink-2: #1f2b27;
+  --ps-ink-3: #293632;
+  --ps-ink-border: #34413c;
+  --ps-ink-text: #eef5f2;
+  --ps-ink-muted: #a5b6b0;
+
+  --ps-font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --ps-font-mono: "DM Mono", "Cascadia Mono", Consolas, monospace;
+
+  --ps-r-xs: 6px;
+  --ps-r-sm: 8px;
+  --ps-r-md: 12px;
+  --ps-r-lg: 18px;
+  --ps-r-xl: 22px;
+  --ps-r-pill: 999px;
+
+  --ps-ease: 160ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  --ps-shadow-xs: 0 1px 2px rgba(20, 30, 27, 0.06);
+  --ps-shadow-sm: 0 3px 10px rgba(20, 30, 27, 0.08);
+  --ps-shadow-md: 0 12px 28px -10px rgba(20, 30, 27, 0.16);
+  --ps-shadow-lg: 0 26px 54px -18px rgba(20, 30, 27, 0.26);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--ps-bg); }
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 77, 148, 0.06), transparent 40%),
+    radial-gradient(circle at 88% 8%, rgba(124, 92, 255, 0.06), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(34, 211, 197, 0.05), transparent 45%),
+    var(--ps-bg);
+  background-attachment: fixed;
+  color: var(--ps-text);
+  font-family: var(--ps-font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+button, input, select, textarea { font: inherit; }
+
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--ps-sage-dim);
+  outline-offset: 2px;
+}
+
+::selection { background: #bfe3d7; color: #0c231b; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #c3d2cc; border: 3px solid var(--ps-bg); border-radius: var(--ps-r-pill); }
+::-webkit-scrollbar-thumb:hover { background: #a3b8b0; }
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-contenido {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  flex: 1;
+}
+
+.paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  color: var(--ps-muted);
+  font-size: .875rem;
+}
+.paginacion-acciones { display: flex; gap: .5rem; }
+.paginacion button {
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-r-xs);
+  background: var(--ps-surface);
+  color: var(--ps-text-2);
+  cursor: pointer;
+  padding: .45rem .75rem;
+}
+.paginacion button:disabled { cursor: not-allowed; opacity: .5; }
+
+@media (max-width: 768px) {
+  .app-contenido { padding: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .app-contenido { padding: 1rem; }
+  .paginacion { align-items: flex-start; flex-direction: column; }
+}
