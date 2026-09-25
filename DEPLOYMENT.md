@@ -33,6 +33,7 @@ cambia `DATABASE_URL` (ver `app/core/config.py`).
    ACCESS_TOKEN_EXPIRE_MINUTES=480
    ORIGENES_PERMITIDOS=https://tu-app.vercel.app
    URL_BACKEND=https://tu-backend.onrender.com
+   GROQ_API_KEY=gsk_...   # gratis en https://console.groq.com/keys, para el reporte con IA
    ```
 
 4. **Health Check Path**: `/health`.
