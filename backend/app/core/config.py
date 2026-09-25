@@ -33,6 +33,15 @@ class Settings(BaseSettings):
     # host correcto en vez de depender del origen relativo del navegador.
     URL_BACKEND: str = "http://localhost:8000"
 
+    # API key gratuita de Groq (console.groq.com/keys) para generar los
+    # reportes integrados con IA. Sin esta clave, el endpoint de reportes
+    # responde 503. Se eligió Groq sobre Gemini porque la capa gratuita de
+    # los modelos Gemini más nuevos resultó tener cuotas muy bajas
+    # (~20 solicitudes/día) y caídas frecuentes por alta demanda; Groq da
+    # cuotas gratuitas mucho más generosas para modelos Llama de gran calidad.
+    GROQ_API_KEY: str = ""
+    GROQ_MODEL: str = "openai/gpt-oss-120b"
+
     @property
     def lista_origenes_permitidos(self) -> list[str]:
         return [o.strip() for o in self.ORIGENES_PERMITIDOS.split(",") if o.strip()]

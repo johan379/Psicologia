@@ -1,9 +1,11 @@
 import { Link, useParams } from "react-router-dom";
 import { usePaciente } from "../Hooks/usePaciente";
 import { useSesiones } from "../Hooks/useSesiones";
+import { useReporteIA } from "../Hooks/useReporteIA";
 import PanelFiltrosSesiones from "../Componentes/PanelFiltrosSesiones";
 import PanelHistorialSesiones from "../Componentes/PanelHistorialSesiones";
 import ModalNuevaSesion from "../Componentes/ModalNuevaSesion";
+import ModalReporteIA from "../Componentes/ModalReporteIA";
 import { formatearFecha } from "../Utils/fechas";
 import "../Style/Paciente.css";
 
@@ -23,6 +25,8 @@ export default function PacientePage() {
     mostrarFormulario, formulario: formularioSesion, guardando: guardandoSesion, errorFormulario: errorSesion,
     abrirFormulario, cerrarFormulario, actualizarCampo: actualizarCampoSesion, crearSesion,
   } = useSesiones(pacienteId);
+
+  const { reporte, generando: generandoReporte, error: errorReporte, visible: reporteVisible, generar: generarReporte, cerrar: cerrarReporte } = useReporteIA(pacienteId);
 
   if (cargando) return <p className="paciente-estado">Cargando paciente...</p>;
   if (errorCarga || !paciente) return <p className="paciente-estado paciente-error">{errorCarga || "Paciente no encontrado."}</p>;
@@ -103,10 +107,17 @@ export default function PacientePage() {
       <section className="paciente-seccion">
         <div className="paciente-seccion-header">
           <h2>Historial de sesiones</h2>
-          <button type="button" className="paciente-boton-nueva-sesion" onClick={abrirFormulario}>
-            + Nueva sesión
-          </button>
+          <div className="paciente-seccion-acciones">
+            <button type="button" onClick={generarReporte} disabled={generandoReporte || sesiones.length === 0}>
+              {generandoReporte ? "Generando reporte..." : "Generar reporte con IA"}
+            </button>
+            <button type="button" className="paciente-boton-nueva-sesion" onClick={abrirFormulario}>
+              + Nueva sesión
+            </button>
+          </div>
         </div>
+
+        {errorReporte && <p className="paciente-error-form">{errorReporte}</p>}
 
         <PanelFiltrosSesiones
           desde={desde} hasta={hasta} orden={orden}
@@ -124,6 +135,14 @@ export default function PacientePage() {
           onCampo={actualizarCampoSesion}
           onGuardar={crearSesion}
           onCerrar={cerrarFormulario}
+        />
+      )}
+
+      {reporteVisible && reporte && (
+        <ModalReporteIA
+          contenido={reporte.contenido}
+          totalSesiones={reporte.totalSesiones}
+          onCerrar={cerrarReporte}
         />
       )}
     </div>

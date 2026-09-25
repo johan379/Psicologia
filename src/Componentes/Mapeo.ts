@@ -1,4 +1,4 @@
-import type { Paciente, PacienteApi, SesionPaciente, SesionPacienteApi, Usuario, UsuarioApi } from "../types/dominio";
+import type { Paciente, PacienteApi, ReporteIa, ReporteIaApi, SesionPaciente, SesionPacienteApi, Usuario, UsuarioApi } from "../types/dominio";
 
 export function usuarioDesdeApi(u: UsuarioApi): Usuario {
   return { id: u.id, correo: u.correo, rol: u.rol, activo: u.activo };
@@ -38,4 +38,8 @@ export function sesionDesdeApi(s: SesionPacienteApi): SesionPaciente {
     notasAdicionales: s.notas_adicionales,
     createdAt: s.created_at,
   };
+}
+
+export function reporteIaDesdeApi(r: ReporteIaApi): ReporteIa {
+  return { contenido: r.contenido, totalSesiones: r.total_sesiones };
 }

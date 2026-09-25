@@ -1,0 +1,55 @@
+.modal-reporte-ia-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 33, 30, 0.45);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 3rem 1rem;
+  z-index: 60;
+}
+
+.modal-reporte-ia {
+  width: 100%;
+  max-width: 680px;
+  background: var(--ps-surface);
+  border-radius: var(--ps-r-lg);
+  box-shadow: var(--ps-shadow-lg);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+}
+
+.modal-reporte-ia-header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.modal-reporte-ia-header h3 { margin: 0; font-family: var(--ps-font-mono); }
+.modal-reporte-ia-contador { font-size: .8rem; color: var(--ps-muted); white-space: nowrap; }
+
+.modal-reporte-ia-cuerpo {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: .25rem;
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+}
+.modal-reporte-ia-cuerpo p { margin: 0; font-size: .92rem; line-height: 1.6; color: var(--ps-text); white-space: pre-wrap; }
+
+.modal-reporte-ia-aviso { margin: 0; font-size: .78rem; color: var(--ps-caption); border-top: 1px solid var(--ps-border-soft); padding-top: .8rem; }
+
+.modal-reporte-ia-acciones { display: flex; justify-content: flex-end; }
+.modal-reporte-ia-acciones button {
+  padding: .6rem 1.2rem;
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-r-sm);
+  background: transparent;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .modal-reporte-ia-fondo { padding: 1rem; }
+  .modal-reporte-ia { padding: 1.25rem; }
+  .modal-reporte-ia-header { flex-direction: column; gap: .25rem; }
+}

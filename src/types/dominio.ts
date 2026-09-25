@@ -70,3 +70,6 @@ export type SesionPaciente = {
   notasAdicionales: string | null;
   createdAt: string;
 };
+
+export type ReporteIaApi = { contenido: string; total_sesiones: number };
+export type ReporteIa = { contenido: string; totalSesiones: number };
