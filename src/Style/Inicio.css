@@ -121,6 +121,13 @@
   margin: .75rem 0 0;
 }
 
+.inicio-aviso-espera {
+  color: var(--ps-muted);
+  font-size: .8rem;
+  margin: .75rem 0 0;
+  text-align: center;
+}
+
 .inicio-boton {
   margin-top: 1.5rem;
   background: linear-gradient(90deg, #ff4d94, #7c5cff);

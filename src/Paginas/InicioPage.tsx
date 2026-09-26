@@ -4,7 +4,7 @@ import type { Sesion } from "../types/dominio";
 import "../Style/Inicio.css";
 
 function InicioPage({ onLogin }: { onLogin: (sesion: Sesion) => void }) {
-  const { correo, setCorreo, contrasena, setContrasena, error, cargando, iniciarSesion } = useControladorInicio(onLogin);
+  const { correo, setCorreo, contrasena, setContrasena, error, cargando, esperandoServidor, iniciarSesion } = useControladorInicio(onLogin);
 
   return (
     <div className="inicio-page">
@@ -37,6 +37,11 @@ function InicioPage({ onLogin }: { onLogin: (sesion: Sesion) => void }) {
           />
 
           {error && <p className="inicio-error">{error}</p>}
+          {esperandoServidor && (
+            <p className="inicio-aviso-espera">
+              El servidor estaba inactivo y está despertando, puede tardar hasta un minuto...
+            </p>
+          )}
 
           <button type="submit" className="inicio-boton" disabled={cargando}>
             {cargando ? "Ingresando..." : "Iniciar sesión"}
